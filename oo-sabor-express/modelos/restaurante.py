@@ -14,7 +14,7 @@ class Restaurante():
     def listar_restaurantres(cls):
         print(f'{'Nome restaurante'.ljust(25)} | {'Categoria'.ljust(25)} | {'Status'}')
         for  restaurante in cls.restaurantes:
-            print (f'{restaurante.nome.ljust(25)} | {restaurante.categoria.ljust(25)} | {restaurante.ativo}')
+            print (f'{restaurante._nome.ljust(25)} | {restaurante._categoria.ljust(25)} | {restaurante.ativo}')
 
     @property
     def ativo(self):
@@ -22,9 +22,3 @@ class Restaurante():
     
     def alternar_estado(self):
         self._ativo = not self._ativo
-    
-restaurante_bk = Restaurante('BK','FastFood')
-restaurante_bk.alternar_estado()
-restaurante_dog = Restaurante('MosterDog','FastFood')
-
-Restaurante.listar_restaurantres()

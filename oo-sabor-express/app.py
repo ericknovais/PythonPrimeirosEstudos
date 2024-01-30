@@ -1,21 +1,29 @@
-from modelos.restaurante import Restaurante
-from modelos.cardapio.prato import Prato
-from modelos.cardapio.bebida import Bebida
+import requests
+import json
 
-restaurante_praca = Restaurante('praça','gourmet')
-restaurante_bk = Restaurante('bk','fostfood')
-restaurante_mexicano = Restaurante('MexiCuzinho', 'Mexicano') 
-restaurante_bk.alternar_estado()
+url = "https://guilhermeonrails.github.io/api-restaurantes/restaurantes.json"
 
-bebida_melancia = Bebida('Melancia', 5.0, 'Grande')
-prato_big_king = Prato('Big King', 19,90, 'Hamburg da casa')
+response = requests.get(url)
 
-# restaurante_bk.receber_avalicao('Erick', 7)
-# restaurante_bk.receber_avalicao('Roberta', 5)
-# restaurante_bk.receber_avalicao('Jamal', 8)
+if response.status_code == 200:
+    dados_json = response.json()
+    dados_restaurantes = {}
+    for item in dados_json:
+        nome_restaurante = item['Company']
+        if nome_restaurante not in dados_restaurantes:
+            dados_restaurantes[nome_restaurante] = []
+        
+        dados_restaurantes[nome_restaurante].append(
+            {"item": item['Item'],
+            "price": item['price'],
+            "description": item['description']}
+        )
+else:
+    print(f'O erro foi {response.status_code}')
 
-def main():
-    pass
-
-if __name__ == '__main__':
-    main()
+# print(dados_restaurantes['Wendy’s'])
+    
+for nome_restaurante, dados in dados_restaurantes.items():
+    nome_do_aquivo = f'{nome_restaurante}.json'
+    with open(nome_do_aquivo,'w') as arquivo_restaurante:
+        json.dump(dados,arquivo_restaurante,indent=4)

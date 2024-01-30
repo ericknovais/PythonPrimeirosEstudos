@@ -1,8 +1,10 @@
-class ItemCardapio:
-    def __init__(self, nome, preco):
+from abc import ABC, abstractclassmethod
+
+class ItemCardapio(ABC):
+    def __init__(self,nome,preco):
         self._nome = nome
-        self._preco = preco
-    
-    def __str__(self):
-       """Retorna uma representação em string do Item Cardapio."""
-       return f'{self._nome}'
+        self._preco = preco 
+
+    @abstractclassmethod
+    def aplicar_desconto(self):
+        pass
